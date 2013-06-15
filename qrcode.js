@@ -1625,7 +1625,7 @@ exports.qrcode = function() {
 		}
 		base64.flush();
 
-		return 'data:image/gif;base64,' + base64;
+		return "" + base64;
 	};
 
 	var createImgTag = function(width, height, getPixel, alt) {
