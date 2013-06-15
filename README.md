@@ -1,6 +1,8 @@
 qrcode-npm
 ==========
 
+*Forked from* [cmanzana/qrcode-npm](https://github.com/cmanzana/qrcode-npm)
+
 This is an npm module for qrcode JavaScript library (http://www.d-project.com/qrcode)
 
 Notice that I am not the author of the code, I am just the creator of an npm module out of the great library from Kazuhiko Arase
@@ -16,11 +18,12 @@ examples
 	qr.addData(text);
 	qr.make();
 
+    qr.createImgData(4);   // creates and return a base64 image data
 	qr.createImgTag(4);    // creates an <img> tag as text
 	qr.createTableTag(4);  // creates a <table> tag as text
 
 install
 -------
 	npm install qrcode-npm
-	
+
 The word "QR Code" is registered trademark of DENSO WAVE INCORPORATED
