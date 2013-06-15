@@ -444,6 +444,26 @@ exports.qrcode = function() {
 			return qrHtml;
 		};
 
+		_this.createImgData = function(cellSize, margin) {
+
+			cellSize = cellSize || 2;
+			margin = (typeof margin == 'undefined')? cellSize * 4 : margin;
+
+			var size = _this.getModuleCount() * cellSize + margin * 2;
+			var min = margin;
+			var max = size - margin;
+
+			return createImgData(size, size, function(x, y) {
+				if (min <= x && x < max && min <= y && y < max) {
+					var c = Math.floor( (x - min) / cellSize);
+					var r = Math.floor( (y - min) / cellSize);
+					return _this.isDark(r, c)? 0 : 1;
+				} else {
+					return 1;
+				}
+			} );
+		};
+
 		_this.createImgTag = function(cellSize, margin) {
 
 			cellSize = cellSize || 2;
@@ -1584,6 +1604,28 @@ exports.qrcode = function() {
 		};
 
 		return _this;
+	};
+
+	var createImgData = function(width, height, getPixel) {
+
+		var gif = gifImage(width, height);
+		for (var y = 0; y < height; y += 1) {
+			for (var x = 0; x < width; x += 1) {
+				gif.setPixel(x, y, getPixel(x, y) );
+			}
+		}
+
+		var b = byteArrayOutputStream();
+		gif.write(b);
+
+		var base64 = base64EncodeOutputStream();
+		var bytes = b.toByteArray();
+		for (var i = 0; i < bytes.length; i += 1) {
+			base64.writeByte(bytes[i]);
+		}
+		base64.flush();
+
+		return 'data:image/gif;base64,' + base64;
 	};
 
 	var createImgTag = function(width, height, getPixel, alt) {
